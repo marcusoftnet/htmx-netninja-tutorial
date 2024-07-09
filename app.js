@@ -2,8 +2,7 @@ import express from 'express';
 import createHomepageTemplate from './views/index.js';
 import createListBooksTemplate from './views/list.js';
 import createBookTemplate from './views/book.js';
-import BOOKS_DATA from './data/data.js'
-import {createNewBook} from './data/data.js'
+import {addBook,getBook, deleteBook} from './data/data.js'
 
 
 // create app
@@ -18,15 +17,25 @@ app.get('/', (req, res) => {
   res.send(createHomepageTemplate());
 });
 
-app.post('/books', (req, res) => {
-  const book = createNewBook(req.body.title, req.body.author);
-  console.log(book)
-  BOOKS_DATA.push(book)
-  res.send(createBookTemplate(book));
+// /books/
+app.get('/books', (req, res) => {
+  res.send(createListBooksTemplate());
 });
 
-app.get('/books', (req, res) => {
-  res.send(createListBooksTemplate(BOOKS_DATA));
+app.post('/books', (req, res) => {
+  const book = addBook(req.body.title, req.body.author);
+  res.redirect(`/books/${book.id}`);
+});
+
+// /books/:id
+app.get('/books/:id', (req, res) => {
+  const book = getBook(req.params.id);
+  res.send(createBookTemplate(book))
+});
+
+app.delete('/books/:id', (req, res) => {
+  deleteBook(req.params.id)
+  res.send("");
 });
 
 // listen to port
