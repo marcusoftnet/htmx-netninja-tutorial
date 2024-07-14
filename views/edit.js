@@ -1,5 +1,8 @@
 const createEditFormTemplate = (book) => /*html*/ `
-  <form>
+  <form
+    hx-put="/books/${book.id}"
+    hx-target="closest li"
+  >
     <input
       type="text"
       name="title"
