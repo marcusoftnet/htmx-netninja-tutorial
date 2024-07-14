@@ -2,6 +2,7 @@ import express from 'express';
 import createHomepageTemplate from './views/index.js';
 import createListBooksTemplate from './views/list.js';
 import createBookTemplate from './views/book.js';
+import createEditFormTemplate from './views/edit.js';
 import {addBook,getBook, deleteBook} from './data/data.js'
 
 
@@ -36,6 +37,12 @@ app.get('/books/:id', (req, res) => {
 app.delete('/books/:id', (req, res) => {
   deleteBook(req.params.id)
   res.send("");
+});
+
+// /books/:id/edit
+app.get('/books/:id/edit', (req, res) => {
+  const book = getBook(req.params.id);
+  res.send(createEditFormTemplate(book))
 });
 
 // listen to port
