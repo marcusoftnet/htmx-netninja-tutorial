@@ -1,9 +1,9 @@
 import express from "express";
 import createHomepageTemplate from "./views/index.js";
-import createListBooksTemplate from "./views/list.js";
+import createListTemplate from "./views/list.js";
 import createBookTemplate from "./views/book.js";
 import createEditFormTemplate from "./views/edit.js";
-import { addBook, getBook, deleteBook, updateBook } from "./data/data.js";
+import BOOKS_DATA, { addBook, getBook, deleteBook, updateBook, filterBooks } from "./data/data.js";
 
 // create app
 const app = express();
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 // /books/
 app.get("/books", (req, res) => {
-  res.send(createListBooksTemplate());
+  res.send(createListTemplate(BOOKS_DATA));
 });
 
 app.post("/books", (req, res) => {
@@ -47,6 +47,13 @@ app.delete("/books/:id", (req, res) => {
 app.get("/books/:id/edit", (req, res) => {
   const book = getBook(req.params.id);
   res.send(createEditFormTemplate(book));
+});
+
+// /books/search
+app.post("/books/search", (req, res) => {
+  const searchTerm = req.body.search.toLowerCase();
+  const filteredBooks = filterBooks(searchTerm);
+  res.send(createListTemplate(filteredBooks));
 });
 
 // listen to port

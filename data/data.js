@@ -33,4 +33,8 @@ export const updateBook = (id, title, author) => {
   return null;
 };
 
+export const filterBooks = (searchTerm) => {
+  return BOOKS_DATA.filter((b) => b.title.toLowerCase().includes(searchTerm));
+};
+
 export default BOOKS_DATA;

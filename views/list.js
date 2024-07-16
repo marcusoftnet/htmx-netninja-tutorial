@@ -1,10 +1,10 @@
 import createBookTemplate from './book.js';
 import BOOKS_DATA from '../data/data.js';
 
-const createListBooksTemplate = () => /*html*/`
+const createListTemplate = (books) => /*html*/`
   <ul>
-    ${BOOKS_DATA.map(createBookTemplate).join('')}
+    ${books.map(createBookTemplate).join('')}
   </ul>
 `;
 
-export default createListBooksTemplate;
+export default createListTemplate;
